@@ -14,6 +14,8 @@ test.describe('Search', () => {
       { name: 'HOLIDAYS', color: 'Łosoś' },
     ];
 
+    const searchProject = 'WORK';
+
     // Act
     await test.step('create new project', async () => {
       await homePage.open();
@@ -24,9 +26,13 @@ test.describe('Search', () => {
     });
 
     await test.step('find and existing project', async () => {
-      await homePage.leftPanel.searchForAProject('WORK');
+      await homePage.leftPanel.searchForAProject(searchProject);
     });
 
     // Assert
+    await test.step('verify project header', async () => {
+      await expect(homePage.projectPanel.projectHeader()).toBeVisible();
+      await expect(homePage.projectPanel.projectHeader()).toHaveText(searchProject);
+    });
   });
 });
