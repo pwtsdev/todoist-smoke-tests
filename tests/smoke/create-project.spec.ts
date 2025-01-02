@@ -9,11 +9,6 @@ test('should create a new project', { tag: '@project' }, async ({ page }) => {
   await homePage.open();
   await homePage.leftPanel.addNewProject('Test project', 'Intensywny czerwony');
 
-  const projectList = page.locator('#projects_list');
-
-  await expect(projectList.locator('li').first()).toHaveText('Test project');
-
-  const projectTitle = page.getByTestId('large-header');
-  // eslint-disable-next-line playwright/max-expects
-  await expect(projectTitle).toHaveText('Test project');
+  // Assert
+  await expect(homePage.leftPanel.getProjectByName('Test project')).toBeVisible();
 });
