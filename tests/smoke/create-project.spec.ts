@@ -1,14 +1,18 @@
-import { expect, test } from '@playwright/test';
-import { HomePage } from '../../src/pages/HomePage';
+import { faker } from '@faker-js/faker';
+import { expect, test } from '../../src/fixtures/po.fixture';
+import { CreateProjectModel } from '../../src/models/create-project.model';
 
-test('should create a new project', { tag: '@project' }, async ({ page }) => {
+test('should create a new project', { tag: '@project' }, async ({ homePage }) => {
   // Arrange
-  const homePage = new HomePage(page);
+  const project: CreateProjectModel = {
+    name: faker.lorem.words(2),
+    color: 'Intensywny czerwony',
+  };
 
   // Act
   await homePage.open();
-  await homePage.leftPanel.addNewProject('Test project', 'Intensywny czerwony');
+  await homePage.leftPanel.addNewProject(project);
 
   // Assert
-  await expect(homePage.leftPanel.getProjectByName('Test project')).toBeVisible();
+  await expect(homePage.leftPanel.getProjectByName(project.name)).toBeVisible();
 });
