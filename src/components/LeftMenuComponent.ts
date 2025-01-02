@@ -38,6 +38,7 @@ export class LeftMenuComponent extends BaseComponent {
   async addNewProject(project: CreateProjectModel): Promise<void> {
     await this.openProjectsMenu();
     await expect(this.addProjectModal.addProjectForm()).toBeVisible();
+    this.log.info(`✅ Creating new project: ${project.name} - ${project.color}`);
     await this.addProjectModal.addNewProject(project.name, project.color);
   }
 

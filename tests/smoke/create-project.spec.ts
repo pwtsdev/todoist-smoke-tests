@@ -2,10 +2,6 @@ import { faker } from '@faker-js/faker';
 import { expect, test } from '../../src/fixtures/po.fixture';
 import { CreateProjectModel } from '../../src/models/create-project.model';
 
-test.afterEach(async ({ homePage }) => {
-  await homePage.leftPanel.deleteAllProjects();
-});
-
 test('should create a new project', { tag: ['@smoke', '@smoke001'] }, async ({ homePage }) => {
   // Arrange
   const project: CreateProjectModel = {
