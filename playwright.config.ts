@@ -8,10 +8,10 @@ export const LOGIN_SESSION = path.join(__dirname, 'tmp/login.json');
 
 export default defineConfig({
   testDir: './tests',
-  fullyParallel: true,
+  fullyParallel: false,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : undefined,
+  workers: 1,
   reporter: 'html',
   use: {
     baseURL: 'https://app.todoist.com',
