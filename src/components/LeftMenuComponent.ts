@@ -2,6 +2,7 @@ import { expect, Locator, Page } from '@playwright/test';
 import { AddProjectModal } from '../modals/AddProjectModal';
 import { BuyPremiumModal } from '../modals/BuyPremiumModal';
 import { DeleteProjectModal } from '../modals/DeleteProjectModal';
+import { SearchProjectModal } from '../modals/SearchProjectModal';
 import { CreateProjectModel } from '../models/create-project.model';
 import { BaseComponent } from './BaseComponent';
 
@@ -9,6 +10,7 @@ export class LeftMenuComponent extends BaseComponent {
   // Components
   private readonly addProjectModal: AddProjectModal;
   private readonly deletePRojectModal: DeleteProjectModal;
+  private readonly searchProjectModal: SearchProjectModal;
 
   readonly buyPremiumModal: BuyPremiumModal;
 
@@ -17,11 +19,14 @@ export class LeftMenuComponent extends BaseComponent {
     this.addProjectModal = new AddProjectModal(page);
     this.buyPremiumModal = new BuyPremiumModal(page);
     this.deletePRojectModal = new DeleteProjectModal(page);
+    this.searchProjectModal = new SearchProjectModal(page);
   }
 
   // Locators
   private readonly leftMenuLocator = (): Locator => this.page.getByTestId('app-sidebar-container');
   private readonly allProjects = (): Locator => this.page.locator('#projects_list li');
+  private readonly navigationMenu = (): Locator => this.page.getByTestId('top-sidebar-nav-items');
+  private readonly searchLink = (): Locator => this.navigationMenu().getByText('Szukaj');
 
   // Actions
 
@@ -69,5 +74,11 @@ export class LeftMenuComponent extends BaseComponent {
     }
 
     expect(await this.getAllProjectNames()).toHaveLength(0);
+  }
+
+  // Search for a project
+  async searchForAProject(name: string): Promise<void> {
+    await this.searchLink().click();
+    await this.searchProjectModal.searchForAProject(name);
   }
 }
