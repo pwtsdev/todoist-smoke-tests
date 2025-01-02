@@ -1,12 +1,14 @@
 import { expect, Locator, Page } from '@playwright/test';
 import { AddProjectModal } from '../modals/AddProjectModal';
 import { BuyPremiumModal } from '../modals/BuyPremiumModal';
+import { DeleteProjectModal } from '../modals/DeleteProjectModal';
 import { CreateProjectModel } from '../models/create-project.model';
 import { BaseComponent } from './BaseComponent';
 
 export class LeftMenuComponent extends BaseComponent {
   // Components
   private readonly addProjectModal: AddProjectModal;
+  private readonly deletePRojectModal: DeleteProjectModal;
 
   readonly buyPremiumModal: BuyPremiumModal;
 
@@ -14,6 +16,7 @@ export class LeftMenuComponent extends BaseComponent {
     super(page);
     this.addProjectModal = new AddProjectModal(page);
     this.buyPremiumModal = new BuyPremiumModal(page);
+    this.deletePRojectModal = new DeleteProjectModal(page);
   }
 
   // Locators
@@ -39,5 +42,32 @@ export class LeftMenuComponent extends BaseComponent {
 
   getProjectByName(name: string): Locator {
     return this.allProjects().locator(`a div span:has-text("${name}")`).first();
+  }
+
+  // Delete project
+  async deleteProject(name: string): Promise<void> {
+    await this.getProjectByName(name).click({ button: 'right' });
+    await this.page.locator('div[role="menuitem"]', { hasText: 'Usuń' }).click();
+    await this.deletePRojectModal.delete();
+
+    await expect(this.getProjectByName(name)).toBeHidden();
+  }
+
+  async deleteAllProjects(): Promise<void> {
+    if (await this.page.getByTestId('modal-overlay').isVisible()) {
+      await this.page.keyboard.press('Escape');
+    }
+
+    const projects = await this.getAllProjectNames();
+    this.log.info(`🗑️  Number of project(s) to delete: ${projects.length.toString()}`);
+
+    if (projects.length > 0) {
+      for (const project of projects) {
+        this.log.info(`🗑️  Deleting project: ${project}`);
+        await this.deleteProject(project);
+      }
+    }
+
+    expect(await this.getAllProjectNames()).toHaveLength(0);
   }
 }
