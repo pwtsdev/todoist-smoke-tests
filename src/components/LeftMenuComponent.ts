@@ -1,5 +1,6 @@
 import { expect, Locator, Page } from '@playwright/test';
 import { AddProjectModal } from '../modals/AddProjectModal';
+import { BuyPremiumModal } from '../modals/BuyPremiumModal';
 import { CreateProjectModel } from '../models/create-project.model';
 import { BaseComponent } from './BaseComponent';
 
@@ -7,9 +8,12 @@ export class LeftMenuComponent extends BaseComponent {
   // Components
   private readonly addProjectModal: AddProjectModal;
 
+  readonly buyPremiumModal: BuyPremiumModal;
+
   constructor(protected page: Page) {
     super(page);
     this.addProjectModal = new AddProjectModal(page);
+    this.buyPremiumModal = new BuyPremiumModal(page);
   }
 
   // Locators
