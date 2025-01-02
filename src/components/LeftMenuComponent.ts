@@ -82,4 +82,9 @@ export class LeftMenuComponent extends BaseComponent {
     await this.searchLink().click();
     await this.searchProjectModal.searchForAProject(name);
   }
+
+  // OPEN PROJECT
+  async openProject(name: string): Promise<void> {
+    await this.getProjectByName(name).first().click();
+  }
 }
