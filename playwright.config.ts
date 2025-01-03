@@ -34,6 +34,17 @@ export default defineConfig({
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'], locale: 'pl-PL', storageState: LOGIN_SESSION },
+      dependencies: ['login session setup'],
+    },
+    {
+      name: 'login session setup',
+      use: { ...devices['Desktop Chrome'], locale: 'pl-PL' },
+      testMatch: '**/login-session.setup.ts',
+      teardown: 'login session teardown',
+    },
+    {
+      name: 'login session teardown',
+      testMatch: '**/login-session.teardown.ts',
     },
   ],
 });
