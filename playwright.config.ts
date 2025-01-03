@@ -19,6 +19,14 @@ export default defineConfig({
     contextOptions: {
       permissions: ['microphone'],
     },
+    launchOptions: {
+      args: [
+        '--use-fake-ui-for-media-stream',
+        '--use-fake-device-for-media-stream',
+        '--enable-media-stream',
+        '--allow-insecure-localhost',
+      ],
+    },
   },
 
   /* Configure projects for major browsers */
