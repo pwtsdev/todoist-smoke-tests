@@ -14,10 +14,16 @@ test.describe('Add task with comments', () => {
     });
 
     await test.step('add task with comment and attachment', async () => {
+      const taskName = 'Task with comments';
+      const description = 'This is a comment with attachment';
+
       await homePage.leftPanel.openProject(project.name);
       await expect(homePage.projectPanel.projectHeader()).toHaveText(project.name);
 
-      await homePage.projectPanel.addTask('Task with comments', 'Task description');
+      await homePage.projectPanel.addTask(taskName, description);
+      await expect(homePage.projectPanel.getTaskByName(taskName)).toBeVisible();
+
+      await homePage.projectPanel.openTask(taskName);
     });
 
     // Assert
