@@ -32,4 +32,12 @@ export class ProjectComponent extends BaseComponent {
     await this.getTaskByName(name).click();
     await expect(this.taskModal.taskModal()).toBeVisible();
   }
+
+  async addComment(comment: string): Promise<void> {
+    await this.taskModal.addComment(comment);
+  }
+
+  async getNumberOfComments(): Promise<string> {
+    return this.projectDetails().locator('div[class="task_list_item__content"] div a span').innerText();
+  }
 }

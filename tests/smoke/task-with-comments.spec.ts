@@ -15,7 +15,8 @@ test.describe('Add task with comments', () => {
 
     await test.step('add task with comment and attachment', async () => {
       const taskName = 'Task with comments';
-      const description = 'This is a comment with attachment';
+      const description = 'This is a description of the task';
+      const comment = 'This is a comment with attachment';
 
       await homePage.leftPanel.openProject(project.name);
       await expect(homePage.projectPanel.projectHeader()).toHaveText(project.name);
@@ -24,8 +25,11 @@ test.describe('Add task with comments', () => {
       await expect(homePage.projectPanel.getTaskByName(taskName)).toBeVisible();
 
       await homePage.projectPanel.openTask(taskName);
+
+      await homePage.projectPanel.addComment(comment);
     });
 
     // Assert
+    expect(await homePage.projectPanel.getNumberOfComments()).toBe('1');
   });
 });
