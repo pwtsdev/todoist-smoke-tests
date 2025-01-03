@@ -33,8 +33,8 @@ export class ProjectComponent extends BaseComponent {
     await expect(this.taskModal.taskModal()).toBeVisible();
   }
 
-  async addComment(comment: string): Promise<void> {
-    await this.taskModal.addComment(comment);
+  async addCommentWithAttachments(comment: string): Promise<void> {
+    await this.taskModal.addCommentWithAttachments(comment);
   }
 
   async getNumberOfComments(): Promise<string> {

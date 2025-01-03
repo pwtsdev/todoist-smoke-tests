@@ -8,9 +8,10 @@ export class TaskModal extends BaseModal {
   readonly attachmentButtons = (): Locator => this.taskModal().locator('.comments_textarea_holder button svg');
   readonly addFileButton = (): Locator => this.attachmentButtons().first();
   readonly addAudioButton = (): Locator => this.attachmentButtons().nth(2);
+  readonly uploadSpinner = (): Locator => this.taskModal().locator('svg[class="ring_spinner"]');
 
   // Actions
-  async addComment(comment: string): Promise<void> {
+  async addCommentWithAttachments(comment: string): Promise<void> {
     await this.taskModal().getByTestId('open-comment-editor-button').click();
     await expect(this.addCommentButton()).toBeVisible();
 
@@ -21,8 +22,17 @@ export class TaskModal extends BaseModal {
     await this.addFileButton().click();
     const upload = await uploadPromise;
     await upload.setFiles('uploads/kod.png');
-    await expect(this.taskModal().getByLabel('Usuń załącznik')).toBeVisible();
+    await expect(this.uploadSpinner()).toBeHidden();
     await expect(this.taskModal().getByText(/kod.png/)).toBeVisible();
+
+    // UPLOAD AUDIO
+    await this.addAudioButton().click();
+    await this.taskModal().getByRole('button', { name: 'Nagraj' }).click();
+    await expect(this.page.getByText('00:03')).toBeVisible();
+    await this.taskModal().getByRole('button', { name: 'Zatrzymaj' }).click();
+    await this.taskModal().getByRole('button', { name: 'Załącz', exact: true }).click();
+    await expect(this.uploadSpinner()).toBeHidden();
+    await expect(this.taskModal().getByText(/voice/)).toBeVisible();
 
     await this.addCommentButton().click();
 

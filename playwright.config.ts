@@ -16,6 +16,9 @@ export default defineConfig({
   use: {
     baseURL: 'https://app.todoist.com',
     trace: 'on',
+    contextOptions: {
+      permissions: ['microphone'],
+    },
   },
 
   /* Configure projects for major browsers */

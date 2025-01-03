@@ -26,10 +26,12 @@ test.describe('Add task with comments', () => {
 
       await homePage.projectPanel.openTask(taskName);
 
-      await homePage.projectPanel.addComment(comment);
+      await homePage.projectPanel.addCommentWithAttachments(comment);
     });
 
     // Assert
-    expect(await homePage.projectPanel.getNumberOfComments()).toBe('1');
+    await test.step('verify number of comments', async () => {
+      expect(await homePage.projectPanel.getNumberOfComments()).toBe('2');
+    });
   });
 });
