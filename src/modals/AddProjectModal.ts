@@ -8,8 +8,8 @@ export class AddProjectModal extends BaseModal {
   // Actions
   async addNewProject(name: string, color: string): Promise<void> {
     await this.addProjectForm().locator('input[name="name"]').fill(name);
-    await this.addProjectForm().locator('button[aria-labelledby="edit_project_modal_field_color_label"]').click();
-    const projectColorSelector = this.page.locator('div .popper');
+    await this.addProjectForm().getByRole('combobox', { name: 'Kolor' }).click();
+    const projectColorSelector = this.page.getByRole('listbox', { name: 'Kolor' });
     await expect(projectColorSelector).toBeVisible();
     await projectColorSelector.getByText(color).click();
     await this.addProjectForm().getByRole('button', { name: 'Dodaj' }).click();

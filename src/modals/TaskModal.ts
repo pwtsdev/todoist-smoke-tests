@@ -5,9 +5,8 @@ export class TaskModal extends BaseModal {
   // Locators
   readonly taskModal = (): Locator => this.page.getByTestId('task-details-modal');
   readonly addCommentButton = (): Locator => this.taskModal().getByRole('button', { name: 'Skomentuj' });
-  readonly attachmentButtons = (): Locator => this.taskModal().locator('.comments_textarea_holder button svg');
-  readonly addFileButton = (): Locator => this.attachmentButtons().first();
-  readonly addAudioButton = (): Locator => this.attachmentButtons().nth(2);
+  readonly addFileButton = (): Locator => this.taskModal().getByRole('button', { name: 'Dodaj plik' });
+  readonly addAudioButton = (): Locator => this.taskModal().getByRole('button', { name: 'Nagraj dźwięk' });
   readonly uploadSpinner = (): Locator => this.taskModal().locator('svg[class="ring_spinner"]');
 
   // Actions
@@ -27,7 +26,7 @@ export class TaskModal extends BaseModal {
 
     // UPLOAD AUDIO
     await this.addAudioButton().click();
-    await this.taskModal().getByRole('button', { name: 'Nagraj' }).click();
+    await this.taskModal().getByRole('button', { name: 'Nagraj', exact: true }).click();
     await expect(this.page.getByText('00:03')).toBeVisible();
     await this.taskModal().getByRole('button', { name: 'Zatrzymaj' }).click();
     await this.taskModal().getByRole('button', { name: 'Załącz', exact: true }).click();
